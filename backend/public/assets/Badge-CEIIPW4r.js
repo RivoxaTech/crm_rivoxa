@@ -1,0 +1,1 @@
+import{i as s,c as t,K as n,n as o}from"./index-qHMuy1bS.js";const c={__name:"Badge",props:{tone:{type:String,default:""}},setup(e){return(a,r)=>(s(),t("span",{class:o(["badge",e.tone])},[n(a.$slots,"default")],2))}};export{c as _};

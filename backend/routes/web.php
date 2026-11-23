@@ -77,6 +77,10 @@ Route::prefix('api')->group(function () {
     });
 });
 
-// Backend only serves the API; the Vue app lives in /frontend
-Route::get('/', fn () => response()->json(['app' => 'Rivoxa CRM API', 'status' => 'running']));
-Route::get('/login', fn () => response()->json(['message' => 'Unauthenticated.'], 401))->name('login');
+// The Vue app (built into public/ by `npm run publish` in /frontend). Everything that is not the API or a public invoice shows it.
+$spa = fn () => file_exists($f = public_path('spa.html'))
+    ? response()->file($f, ['Cache-Control' => 'no-cache'])
+    : response()->json(['app' => 'Rivoxa CRM API', 'status' => 'running', 'note' => 'Frontend not published yet']);
+
+Route::get('/login', $spa)->name('login');
+Route::get('/{any?}', $spa)->where('any', '^(?!api|i/).*$');
